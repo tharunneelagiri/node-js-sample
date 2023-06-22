@@ -20,4 +20,4 @@ jobs:
 
       - name: SSH to EC2 instance and deploy
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} 'cd /path/to/your/application && git pull && ./deploy.sh'
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} 'cd /root/tharun && git pull && ./deploy.sh'
