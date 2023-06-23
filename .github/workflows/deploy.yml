@@ -24,4 +24,4 @@ jobs:
     mkdir -p ~/.ssh
     touch ~/.ssh/known_hosts
     ssh-keyscan -H ${{ secrets.EC2_PRIVATE_IP }} >> ~/.ssh/known_hosts
-    ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_PRIVATE_IP }} 'cd /path/to/your/application && git pull && ./deploy.sh'
+    ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_PRIVATE_IP }} 'cd /home/ubuntu/tharun && git pull && ./deploy.sh'
