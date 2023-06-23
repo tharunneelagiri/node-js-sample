@@ -1,4 +1,4 @@
-name: Deployment
+name: EC2 Deployment
 
 on:
   push:
@@ -13,11 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Configure AWS credentials
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
+          echo "AWS_DEFAULT_REGION=${{ secrets.AWS_REGION }}" >> $GITHUB_ENV
 
       - name: SSH to EC2 instance and deploy
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} 'cd /root/tharun && git pull && ./deploy.sh'
+          ssh-keyscan -H ${{ secrets.EC2_PRIVATE_IP }} >> ~/.ssh/known_hosts
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_PRIVATE_IP }} 'cd /root/tharun && git pull && ./deploy.sh'
